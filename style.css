@@ -6,6 +6,8 @@
   --muted: #8a7259;      /* coffee taupe */
   --accent: #9c6644;     /* mocha */
   --accent-soft: rgba(156, 102, 68, 0.13);
+  --accent-2: #157f5f;   /* emerald */
+  --accent-2-soft: rgba(21, 127, 95, 0.12);
   --border: rgba(90, 62, 40, 0.15);
   --radius: 14px;
   --maxw: 640px;
@@ -20,6 +22,8 @@
     --muted: #b6a186;    /* latte */
     --accent: #d9a679;   /* caramel */
     --accent-soft: rgba(217, 166, 121, 0.14);
+    --accent-2: #34d399;   /* emerald */
+    --accent-2-soft: rgba(52, 211, 153, 0.15);
     --border: rgba(241, 231, 215, 0.1);
   }
 }
@@ -104,7 +108,7 @@ main {
 }
 
 .eyebrow {
-  color: var(--accent);
+  color: var(--accent-2);
   font-size: 0.9rem;
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -140,6 +144,21 @@ h1 {
 
 .timeline-section { margin-top: 3rem; }
 
+.langs-section { margin-top: 3rem; }
+
+.langs {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+.langs li { font-size: 0.98rem; }
+.langs .lang { font-weight: 600; color: var(--accent-2); }
+.langs .muted { color: var(--muted); }
+
 .timeline { list-style: none; display: grid; gap: 1.6rem; }
 
 .timeline .entry-head {
@@ -160,7 +179,7 @@ h1 {
 
 .timeline .org {
   display: block;
-  color: var(--accent);
+  color: var(--accent-2);
   font-size: 0.92rem;
   margin-top: 0.15rem;
 }
@@ -172,6 +191,17 @@ h1 {
   font-size: 0.95rem;
   margin-top: 0.4rem;
 }
+
+.timeline .entry-desc a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+  border-bottom: 1.5px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.timeline .entry-desc a:hover { border-bottom-color: var(--accent); }
 
 /* collapsible entries */
 .timeline details summary {
@@ -206,7 +236,7 @@ h1 {
 }
 
 .timeline .bullets li { line-height: 1.55; padding-left: 0.15rem; }
-.timeline .bullets li::marker { color: var(--accent); }
+.timeline .bullets li::marker { color: var(--accent-2); }
 
 .timeline .terms-label {
   margin: 0.85rem 0 0.55rem;
@@ -258,8 +288,9 @@ h2 {
 }
 
 .project-list li.featured {
-  border-color: var(--accent);
-  background: linear-gradient(180deg, var(--accent-soft), var(--bg-soft));
+  background: transparent;
+  border: none;
+  padding: 0;
 }
 
 .project-list a {
@@ -281,8 +312,8 @@ h2 {
 
 .tag {
   font-size: 0.75rem;
-  color: var(--accent);
-  background: var(--accent-soft);
+  color: var(--accent-2);
+  background: var(--accent-2-soft);
   padding: 0.2rem 0.6rem;
   border-radius: 100px;
   white-space: nowrap;
