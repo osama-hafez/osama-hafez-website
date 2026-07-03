@@ -1,34 +1,54 @@
 :root {
-  /* cream & coffee — light default */
-  --bg: #f3e9d8;         /* warm cream */
-  --bg-soft: #fbf5ea;    /* ivory card */
-  --text: #3c2e24;       /* espresso */
-  --muted: #8a7259;      /* coffee taupe */
-  --accent: #9c6644;     /* mocha */
-  --accent-soft: rgba(156, 102, 68, 0.13);
-  --accent-2: #157f5f;   /* emerald */
-  --accent-2-soft: rgba(21, 127, 95, 0.12);
-  --on-accent: #fbf5ea;  /* text on a filled accent button */
-  --border: rgba(90, 62, 40, 0.15);
+  /* cream & coffee — cream base, coffee text */
+  --bg: #f4ece0;         /* cream */
+  --bg-soft: #ece0cd;    /* soft cream (cards / bands) */
+  --text: #2a1d13;       /* espresso */
+  --muted: #6f5945;      /* coffee */
+  --accent: #a5703c;     /* caramel */
+  --accent-soft: rgba(165, 112, 60, 0.12);
+  --accent-2: #0e9d73;   /* rich emerald */
+  --accent-2-soft: rgba(14, 157, 115, 0.14);
+  --accent-2-glow: rgba(14, 157, 115, 0.35);
+  --on-accent: #ffffff;  /* text on the bright emerald button */
+  --border: rgba(42, 29, 19, 0.14);
   --radius: 14px;
   --maxw: 640px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* rich espresso */
-    --bg: #211913;
-    --bg-soft: #2c221b;
-    --text: #f1e7d7;     /* cream text */
-    --muted: #b6a186;    /* latte */
-    --accent: #d9a679;   /* caramel */
-    --accent-soft: rgba(217, 166, 121, 0.14);
-    --accent-2: #34d399;   /* emerald */
-    --accent-2-soft: rgba(52, 211, 153, 0.15);
-    --on-accent: #211913;  /* dark text on the lighter dark-mode accent */
-    --border: rgba(241, 231, 215, 0.1);
-  }
+/* Full-width band: a gentle soft-cream tint that bleeds edge-to-edge
+   behind the centered column to softly group a section. */
+.band-cream {
+  --bg-soft: #e6d8c2;
+  position: relative;
+  margin-top: 0;
+  padding: 4.5rem 0;
 }
+
+.band-cream::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background: var(--bg-soft);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 3.5rem, #000 calc(100% - 3.5rem), transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 3.5rem, #000 calc(100% - 3.5rem), transparent 100%);
+  z-index: 0;
+}
+
+.band-cream > * { position: relative; z-index: 1; }
+
+/* when the band wraps the description + selected work together, drop the
+   about section's own divider so the band reads as one calm block */
+.band-group .about {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.band-group .highlights-section { margin-top: 2.75rem; }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -46,17 +66,45 @@ body {
   overflow-x: hidden;
 }
 
-/* soft ambient glow behind content */
+/* soft ambient glow that drifts slowly around the screen */
 .glow {
   position: fixed;
-  top: -20%;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  width: 60rem;
-  height: 40rem;
-  background: radial-gradient(circle at center, var(--accent-soft), transparent 60%);
+  width: 42rem;
+  height: 42rem;
+  margin: -21rem 0 0 -21rem;
+  background: radial-gradient(circle at center, rgba(14, 157, 115, 0.16), transparent 62%);
   pointer-events: none;
   z-index: 0;
+  filter: blur(30px);
+  will-change: transform;
+  animation: glow-drift 26s ease-in-out infinite alternate;
+}
+
+/* a second, warmer caramel glow drifting on its own path */
+.glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(165, 112, 60, 0.14), transparent 62%);
+  animation: glow-drift-2 34s ease-in-out infinite alternate;
+}
+
+@keyframes glow-drift {
+  0%   { transform: translate(-26vw, -22vh) scale(1); }
+  50%  { transform: translate(22vw, 6vh) scale(1.15); }
+  100% { transform: translate(-8vw, 26vh) scale(1); }
+}
+
+@keyframes glow-drift-2 {
+  0%   { transform: translate(20vw, 18vh) scale(1.1); }
+  50%  { transform: translate(-22vw, -14vh) scale(1); }
+  100% { transform: translate(14vw, -24vh) scale(1.2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow, .glow::after { animation: none; }
 }
 
 main {
@@ -122,7 +170,13 @@ main {
 
 .btn:hover { transform: translateY(-2px); }
 
-.btn-primary { background: var(--accent-2); color: var(--on-accent); }
+.btn-primary {
+  background: linear-gradient(135deg, #55f0b8, #1fc78c);
+  color: var(--on-accent);
+  box-shadow: 0 4px 20px -4px var(--accent-2-glow);
+}
+
+.btn-primary:hover { box-shadow: 0 7px 26px -4px var(--accent-2-glow); }
 
 .btn-secondary { border-color: var(--border); color: var(--text); }
 .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
@@ -143,13 +197,44 @@ main {
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
-.service:hover { border-color: var(--accent-2); transform: translateY(-2px); }
+.service:hover {
+  border-color: var(--accent-2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px -10px var(--accent-2-glow);
+}
 
 .service h3 { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.4rem; }
 .service p { color: var(--muted); font-size: 0.92rem; line-height: 1.55; }
 
 @media (max-width: 520px) {
   .services-grid { grid-template-columns: 1fr; }
+}
+
+/* Big screens: scatter the service cards out into the wide side margins,
+   tilted inward, so they frame the hero instead of sitting in a grid. */
+@media (min-width: 1200px) {
+  .services { margin-top: 0; }
+  .services > h2 { display: none; }
+  .services-grid { display: block; }
+
+  .service {
+    position: absolute;
+    width: 212px;
+    background: var(--bg-soft);
+    box-shadow: 0 14px 34px -16px rgba(42, 29, 19, 0.35);
+    z-index: 2;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+  }
+
+  .service:nth-child(1) { top: 64px;  left: -262px;  transform: rotate(5deg); }
+  .service:nth-child(2) { top: 306px; left: -244px;  transform: rotate(-4deg); }
+  .service:nth-child(3) { top: 40px;  right: -262px; transform: rotate(-5deg); }
+  .service:nth-child(4) { top: 292px; right: -244px; transform: rotate(4deg); }
+
+  .service:hover {
+    transform: rotate(0deg) translateY(-4px) scale(1.03);
+    box-shadow: 0 20px 40px -14px var(--accent-2-glow);
+  }
 }
 
 /* Closing CTA band */
@@ -193,6 +278,7 @@ main {
 
 .eyebrow {
   color: var(--accent-2);
+  text-shadow: 0 0 14px var(--accent-2-glow);
   font-size: 0.9rem;
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -227,6 +313,75 @@ h1 {
 .projects { margin-top: 3rem; }
 
 .timeline-section { margin-top: 3rem; }
+
+/* Track record / highlights */
+.highlights-section { margin-top: 3rem; }
+
+.highlights-lead {
+  font-size: 1.05rem;
+  color: var(--text);
+  margin-bottom: 1.3rem;
+  max-width: 58ch;
+}
+
+.highlights-lead strong {
+  color: var(--accent-2);
+  font-weight: 600;
+  text-shadow: 0 0 12px var(--accent-2-glow);
+}
+
+.highlights {
+  list-style: none;
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+}
+
+.highlights li {
+  position: relative;
+  padding-left: 1.5rem;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+  max-width: 60ch;
+}
+
+.highlights li::before {
+  content: "";
+  position: absolute;
+  left: 0.1rem;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-2);
+  box-shadow: 0 0 8px var(--accent-2-glow);
+}
+
+.highlights li strong {
+  color: var(--accent-2);
+  font-weight: 600;
+  text-shadow: 0 0 12px var(--accent-2-glow);
+}
+
+.highlights li a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+  border-bottom: 1.5px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.highlights li a:hover { border-bottom-color: var(--accent); }
+
+/* Background one-liner */
+.background-section { margin-top: 3rem; }
+
+.background-line { color: var(--muted); font-size: 0.98rem; }
+.background-line strong { color: var(--text); font-weight: 600; }
+.background-line .sep { margin: 0 0.55rem; opacity: 0.5; }
 
 .langs-section { margin-top: 3rem; }
 
