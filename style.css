@@ -17,31 +17,14 @@
 
 /* Full-width band: a gentle soft-cream tint that bleeds edge-to-edge
    behind the centered column to softly group a section. */
+/* single cream background throughout; this wrapper only groups the
+   description + selected work for spacing, no background of its own */
 .band-cream {
-  --bg-soft: #e6d8c2;
   position: relative;
   margin-top: 0;
-  padding: 4.5rem 0;
+  padding: 2.75rem 0;
 }
 
-.band-cream::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 100vw;
-  transform: translateX(-50%);
-  background: var(--bg-soft);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 3.5rem, #000 calc(100% - 3.5rem), transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0, #000 3.5rem, #000 calc(100% - 3.5rem), transparent 100%);
-  z-index: 0;
-}
-
-.band-cream > * { position: relative; z-index: 1; }
-
-/* when the band wraps the description + selected work together, drop the
-   about section's own divider so the band reads as one calm block */
 .band-group .about {
   margin-top: 0;
   padding-top: 0;
@@ -153,8 +136,8 @@ main {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1.6rem;
+  gap: 1rem;
+  margin-top: 1.9rem;
 }
 
 .btn {
@@ -239,13 +222,15 @@ main {
 
 /* Closing CTA band */
 .cta-section {
-  margin-top: 3.5rem;
-  padding: 2.2rem;
+  margin-top: 3rem;
+  padding: 2.5rem 2.2rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--accent-2-soft);
   text-align: center;
 }
+
+.cta-section .cta-row { margin-top: 1.4rem; }
 
 .cta-title {
   color: var(--text);
@@ -377,7 +362,7 @@ h1 {
 .highlights li a:hover { border-bottom-color: var(--accent); }
 
 /* Background one-liner */
-.background-section { margin-top: 3rem; }
+.background-section { margin-top: 2rem; }
 
 .background-line { color: var(--muted); font-size: 0.98rem; }
 .background-line strong { color: var(--text); font-weight: 600; }
