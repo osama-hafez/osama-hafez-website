@@ -8,6 +8,7 @@
   --accent-soft: rgba(156, 102, 68, 0.13);
   --accent-2: #157f5f;   /* emerald */
   --accent-2-soft: rgba(21, 127, 95, 0.12);
+  --on-accent: #fbf5ea;  /* text on a filled accent button */
   --border: rgba(90, 62, 40, 0.15);
   --radius: 14px;
   --maxw: 640px;
@@ -24,6 +25,7 @@
     --accent-soft: rgba(217, 166, 121, 0.14);
     --accent-2: #34d399;   /* emerald */
     --accent-2-soft: rgba(52, 211, 153, 0.15);
+    --on-accent: #211913;  /* dark text on the lighter dark-mode accent */
     --border: rgba(241, 231, 215, 0.1);
   }
 }
@@ -84,10 +86,92 @@ main {
 
 .hero {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1.75rem;
 }
+
+.hero-kicker {
+  margin-top: 1rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+  max-width: 44ch;
+}
+
+.hero-kicker em { font-family: "Newsreader", Georgia, serif; }
+
+/* CTA buttons */
+.cta-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.6rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.72rem 1.35rem;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: 1.5px solid transparent;
+  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary { background: var(--accent-2); color: var(--on-accent); }
+
+.btn-secondary { border-color: var(--border); color: var(--text); }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Services */
+.services { margin-top: 3rem; }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.service {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.3rem 1.4rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.service:hover { border-color: var(--accent-2); transform: translateY(-2px); }
+
+.service h3 { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.4rem; }
+.service p { color: var(--muted); font-size: 0.92rem; line-height: 1.55; }
+
+@media (max-width: 520px) {
+  .services-grid { grid-template-columns: 1fr; }
+}
+
+/* Closing CTA band */
+.cta-section {
+  margin-top: 3.5rem;
+  padding: 2.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--accent-2-soft);
+  text-align: center;
+}
+
+.cta-title {
+  color: var(--text);
+  font-size: 1.2rem;
+  text-transform: none;
+  letter-spacing: normal;
+  margin-bottom: 0.4rem;
+}
+
+.cta-section p { color: var(--muted); margin-bottom: 0.2rem; }
+.cta-section .cta-row { justify-content: center; }
 
 .hero-text { min-width: 0; }
 
